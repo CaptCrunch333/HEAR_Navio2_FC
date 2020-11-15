@@ -16,8 +16,6 @@ catkin_package(
   CATKIN_DEPENDS
     hear_ros_bridge
     roscpp
-  DEPENDS
-    system_lib
 )
 
 include_directories(

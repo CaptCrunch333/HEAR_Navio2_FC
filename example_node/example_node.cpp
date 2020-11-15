@@ -101,7 +101,6 @@ int main(int argc, char** argv) {
     Block* PID_y = new PIDController(block_id::PID_Y);
     Block* PID_roll = new PIDController(block_id::PID_ROLL);
     Block* PID_z = new PIDController(block_id::PID_Z);
-    Block* PID_z_identification = new PIDController(block_id::PID_Z_ID);
     Block* PID_yaw = new PIDController(block_id::PID_YAW);
     Block* PID_yaw_rate = new PIDController(block_id::PID_YAW_RATE);
 
@@ -318,7 +317,6 @@ int main(int argc, char** argv) {
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_y->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
-    ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_z_identification->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
 
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_roll->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_pitch->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
