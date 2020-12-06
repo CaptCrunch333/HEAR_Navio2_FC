@@ -33,5 +33,8 @@ target_link_libraries(global2inertial_node ${catkin_LIBRARIES})
 add_executable(providers_node providers_node/providers_node.cpp)
 target_link_libraries(providers_node ${catkin_LIBRARIES})
 
+add_executable(providers_node_slam providers_node/providers_node_slam.cpp)
+target_link_libraries(providers_node_slam ${catkin_LIBRARIES})
+
 add_executable(waypoint_reference_node waypoint_reference_node/waypoint_reference_node.cpp)
 target_link_libraries(waypoint_reference_node ${catkin_LIBRARIES})

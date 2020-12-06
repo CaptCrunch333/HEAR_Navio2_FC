@@ -11,6 +11,7 @@
 #include "HEAR_nav/Global2Inertial.hpp"
 #include "HEAR_nav/WrapAroundFunction.hpp"
 #include "HEAR_ROS_BRIDGE/ROSUnit_IMU.hpp"
+#include "HEAR_ROS_BRIDGE/ROSUnit_SLAM.hpp"
 #include "HEAR_ROS_BRIDGE/ROSUnit_Factory.hpp"
 #include "HEAR_ROS_BRIDGE/ROSUnit_Optitrack.hpp"
 #include "HEAR_math/Differentiator.hpp"
