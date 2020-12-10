@@ -9,7 +9,7 @@
               "../../devel/include/**",
               "/opt/ros/melodic/include/**"
           ],
-          "compilerPath": "/usr/bin/clang",
+        //   "compilerPath": "/usr/bin/clang",
           "cStandard": "c11",
           "intelliSenseMode": "clang-x64"
       }

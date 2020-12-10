@@ -1,4 +1,6 @@
 #include <iostream>
+
+#include "ros/ros.h"
 #include "HEAR_core/Timer.hpp"
 #include "HEAR_core/std_logger.hpp"
 #include "HEAR_nav/RestrictedNormWaypointRefGenerator.hpp"

@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+#include "ros/ros.h"
 #include "HEAR_core/Timer.hpp"
 #include "HEAR_core/Mux3D.hpp"
 #include "HEAR_core/Demux3D.hpp"
@@ -22,7 +23,7 @@
 const int OPTITRACK_FREQUENCY = 120;
 
 int main(int argc, char **argv){
-    ros::init(argc, argv, "providers_node");
+    ros::init(argc, argv, "providers_node_slam");
     ros::NodeHandle nh;
     ros::Rate rate(200);
     ROSUnit_Factory ROSUnit_Factory_main{nh};

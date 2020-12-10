@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <sched.h>
 
+#include "ros/ros.h"
 #include "HEAR_core/std_logger.hpp"
 #include "HEAR_core/Switch.hpp"
 #include "HEAR_core/Mux3D.hpp"
@@ -202,8 +203,8 @@ int main(int argc, char** argv) {
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
-    rosunit_waypoint_x->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_0]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
-    hold_ref_y->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
+    rosunit_waypoint_x->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
+    hold_ref_x->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
 
     rosunit_x_provider->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     rosunit_provider_slam_x->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_1]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
@@ -223,7 +224,7 @@ int main(int argc, char** argv) {
     PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(PID_x_slam->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
     MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
-    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect((MRFT_x->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
+    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_x->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
     
     // Rotation Matrix
     PID_x->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
@@ -296,7 +297,7 @@ int main(int argc, char** argv) {
     PID_SLAM_sw_y->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(MRFT_sw_y->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     PID_SLAM_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(PID_y_slam->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
     MRFT_sw_y->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_y->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
-    MRFT_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect((MRFT_y->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
+    MRFT_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_y->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
 
     PID_y->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
     MRFT_y->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
@@ -368,7 +369,7 @@ int main(int argc, char** argv) {
     PID_SLAM_sw_z->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(MRFT_sw_z->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     PID_SLAM_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(PID_z_slam->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
     MRFT_sw_z->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
-    MRFT_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect((MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
+    MRFT_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
 
     PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);;
     MRFT_z->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
