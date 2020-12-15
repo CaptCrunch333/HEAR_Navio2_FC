@@ -215,12 +215,12 @@ int main(int argc, char** argv) {
     prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(sum_ref_x->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_1_DATA]->connect(sum_ref_dot_x->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(sum_ref_dot_dot_x->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(sum_ref_x->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     sum_ref_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_x->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     sum_ref_dot_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_x->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
     sum_ref_dot_dot_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_x->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);
     
-    error_mux_x->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
-
+    error_mux_x->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(PID_x_slam->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
     MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
