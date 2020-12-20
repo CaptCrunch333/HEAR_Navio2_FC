@@ -45,7 +45,7 @@ int main(int argc, char** argv){
     set_mode->getPorts()[ROSUnit_SetInt8Srv::OP_0]->connect(esc_calib->getPorts()[EscCalib::ports_id::IP_0_MODE]);
     ramp_signal->getPorts()[Ramp::ports_id::OP_0_DATA]->connect(esc_calib->getPorts()[EscCalib::ports_id::IP_2_SIGNAL]);
 
-    set_channel->getPorts()[ROSUnit_SetInt8Srv::OP_0]->connect(esc_calib->getPorts()[EscCalib::ports_id::IP_3_CHANNEL]);
+    set_channel->getPorts()[ROSUnit_SetInt8Srv::OP_1]->connect(esc_calib->getPorts()[EscCalib::ports_id::IP_3_CHANNEL]);
 
     ros::spin();
 
