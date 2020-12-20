@@ -41,3 +41,6 @@ target_link_libraries(providers_node_slam ${catkin_LIBRARIES})
 
 add_executable(waypoint_reference_node waypoint_reference_node/waypoint_reference_node.cpp)
 target_link_libraries(waypoint_reference_node ${catkin_LIBRARIES})
+
+add_executable(esc_calib_node example_node/calibrate_esc_node.cpp)
+target_link_libraries(esc_calib_node ${catkin_LIBRARIES})
