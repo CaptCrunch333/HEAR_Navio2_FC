@@ -6,13 +6,11 @@
                 "../HEAR_Architecture/**",
                 "../HEAR_ROS_BRIDGE/**",
                 "../HEAR_Hardware_Interface/**",
-                "../../devel/include/**",
                 "/opt/ros/melodic/include/**"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
-            "intelliSenseMode": "clang-x64",
-            "compileCommands": "/home/ahmed/HEAR_ws/src/HEAR_ROS_BRIDGE/build/compile_commands.json"
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4
