@@ -5,12 +5,13 @@
             "includePath": [
                 "../HEAR_Architecture/**",
                 "../HEAR_ROS_BRIDGE/**",
+                "../../devel/include/**",
                 "../HEAR_Hardware_Interface/**",
                 "/opt/ros/melodic/include/**"
             ],
-            "compilerPath": "/usr/bin/gcc",
+            "compilerPath": "/usr/bin/clang",
             "cStandard": "c11",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "clang-x64"
         }
     ],
     "version": 4
