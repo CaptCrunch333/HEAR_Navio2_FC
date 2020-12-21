@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_roll = new Mux3D();
     HoldVal* hold_ref_roll = new HoldVal(std::greater_equal<float>(), 2.0);
     Switch* MRFT_sw_roll = new Switch(std::greater_equal<float>(), 2.0);
-    Sum* MRFT_bias_roll = new Sum(std::plus<float>());
+//    Sum* MRFT_bias_roll = new Sum(std::plus<float>());
 
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(hold_ref_roll->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(MRFT_sw_roll->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
@@ -207,9 +207,10 @@ int main(int argc, char** argv) {
     MRFT_sw_roll->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_roll->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
 
     PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_0_DATA_ROLL]);
-    PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
-    MRFT_roll->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
-    MRFT_bias_roll->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_0_DATA_ROLL]);
+//    PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+//    MRFT_roll->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
+//    MRFT_bias_roll->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_0_DATA_ROLL]);
+    MRFT_roll->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_0_DATA_ROLL]);
 
     //*******************************************************************************************************************
 
@@ -244,7 +245,7 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_pitch = new Mux3D();
     HoldVal* hold_ref_pitch = new HoldVal(std::greater_equal<float>(), 2.0);
     Switch* MRFT_sw_pitch = new Switch(std::greater_equal<float>(), 2.0);
-    Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
+//    Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
@@ -265,9 +266,10 @@ int main(int argc, char** argv) {
     MRFT_sw_pitch->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_pitch->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
 
     PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
-    PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
-    MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
-    MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
+//    PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+//    MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
+//    MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
+    MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
 
     //*******************************************************************************************************************
 
