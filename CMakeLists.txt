@@ -44,3 +44,6 @@ target_link_libraries(waypoint_reference_node ${catkin_LIBRARIES})
 
 add_executable(esc_calib_node example_node/calibrate_esc_node.cpp)
 target_link_libraries(esc_calib_node ${catkin_LIBRARIES})
+
+add_executable(mrft_rpz_node example_node/mrft_rpz_node.cpp)
+target_link_libraries(mrft_rpz_node ${catkin_LIBRARIES})
