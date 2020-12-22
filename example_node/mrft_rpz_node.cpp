@@ -20,6 +20,7 @@
 #include "HEAR_math/Saturation.hpp"
 #include "HEAR_math/HoldVal.hpp"
 #include "HEAR_math/KalmanFilter.hpp"
+#include "HEAR_math/AvgFilter.hpp"
 #include "HEAR_control/PIDController.hpp"
 #include "HEAR_control/MRFTController.hpp"
 #include "HEAR_control/BoundingBoxController.hpp"
@@ -245,12 +246,14 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_pitch = new Mux3D();
     HoldVal* hold_ref_pitch = new HoldVal(std::greater_equal<float>(), 2.0);
     Switch* MRFT_sw_pitch = new Switch(std::greater_equal<float>(), 2.0);
+    AvgFilter* lpf_pitch = new AvgFilter(50);
 //    Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
-    Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
+    Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(lpf_pitch->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA];
+    lpf_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
     hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(sum_ref_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     rosunit_pitch_provider->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_4]->connect(prov_demux_pitch->getPorts()[(int)Demux3D::ports_id::IP_0_DATA]);
 
