@@ -253,15 +253,14 @@ int main(int argc, char** argv) {
 //    Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
 
     //********* Adding probes for debugging
-    lpf_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    // lpf_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     ///////////////////////////////
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
-    Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(lpf_pitch->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
-    lpf_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
+    Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
     hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(sum_ref_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     rosunit_pitch_provider->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_4]->connect(prov_demux_pitch->getPorts()[(int)Demux3D::ports_id::IP_0_DATA]);
 
