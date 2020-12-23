@@ -277,8 +277,8 @@ int main(int argc, char** argv) {
     ///////////////////////////////
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    // ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
-    // ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
 
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
