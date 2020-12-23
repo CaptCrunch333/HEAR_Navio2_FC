@@ -296,7 +296,7 @@ int main(int argc, char** argv) {
 
     PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
     PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(filter_bias_pitch->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
-    filter_ref_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    filter_bias_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
     // MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
