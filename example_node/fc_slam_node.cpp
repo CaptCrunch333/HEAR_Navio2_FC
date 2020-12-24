@@ -23,6 +23,7 @@
 #include "HEAR_math/Saturation.hpp"
 #include "HEAR_math/HoldVal.hpp"
 #include "HEAR_math/KalmanFilter.hpp"
+#include "HEAR_math/AvgFilter.hpp"
 #include "HEAR_control/PIDController.hpp"
 #include "HEAR_control/MRFTController.hpp"
 #include "HEAR_control/BoundingBoxController.hpp"
@@ -191,6 +192,9 @@ int main(int argc, char** argv) {
     InvertedSwitch* reference_sw_x = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     InvertedSwitch* provider_sw_x = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     HoldVal* hold_ref_x = new HoldVal(std::greater_equal<float>(), 2.0); 
+    Sum* add_bias_x = new Sum(std::plus<float>());
+    Switch* MRFT_out_sw_x = new Switch(std::greater_equal<float>(), 2.0);
+    AvgFilter* bias_filter_x = new AvgFilter(200);
 
     Sum* sum_ref_x = new Sum(std::minus<float>());
     Sum* sum_ref_dot_x = new Sum(std::minus<float>());
@@ -202,6 +206,7 @@ int main(int argc, char** argv) {
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(hold_ref_x->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+    ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
@@ -231,7 +236,11 @@ int main(int argc, char** argv) {
     
     // Rotation Matrix
     PID_x->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
-    MRFT_x->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
+    PID_x->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(bias_filter_x->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
+    bias_filter_x->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(add_bias_x->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    MRFT_x->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(add_bias_x->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
+    add_bias_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
+    MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
     PID_x_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
 
     // Saturation
@@ -264,7 +273,7 @@ int main(int argc, char** argv) {
     Switch* PID_SLAM_sw_y = new Switch(std::greater_equal<float>(), 2.0);
     InvertedSwitch* reference_sw_y = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     InvertedSwitch* provider_sw_y = new InvertedSwitch(std::greater_equal<float>(), 2.0);
-    HoldVal* hold_ref_y = new HoldVal(std::greater_equal<float>(), 2.0); 
+    HoldVal* hold_ref_y = new HoldVal(std::greater_equal<float>(), 2.0);
 
     Sum* sum_ref_y = new Sum(std::minus<float>());
     Sum* sum_ref_dot_y = new Sum(std::minus<float>());
