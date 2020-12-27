@@ -197,8 +197,8 @@ int main(int argc, char** argv) {
     Sum* MRFT_bias_roll = new Sum(std::plus<float>());
 
     //********* Adding probes for debugging
-    // hold_ref_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    // PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    hold_ref_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    hold_bias_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     //////////////////////////////////////
 
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(hold_ref_roll->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
@@ -272,8 +272,8 @@ int main(int argc, char** argv) {
     Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
 
     //********* Adding probes for debugging
-    hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    // hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    // hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     ///////////////////////////////
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
