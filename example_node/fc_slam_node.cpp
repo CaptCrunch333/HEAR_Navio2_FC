@@ -139,7 +139,9 @@ int main(int argc, char** argv) {
     ROSUnit* probe_2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
                                                                     "probe_2");                                                               
-
+    ROSUnit* probe_3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_3");
     //**************************SETTING BLOCKS**********************************
     PIDController* PID_x = new PIDController(block_id::PID_X);
     PIDController* PID_x_slam = new PIDController(block_id::PID_SLAM_X);
@@ -206,7 +208,8 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_x = new Mux3D();
 
     prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(probe_2->getPorts()[ROSUnit_FloatPub::ports_id::IP_0]);
+    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    MRFT_x->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(probe_3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     // ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
