@@ -204,7 +204,7 @@ int main(int argc, char** argv) {
 
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(hold_ref_x->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    //ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
