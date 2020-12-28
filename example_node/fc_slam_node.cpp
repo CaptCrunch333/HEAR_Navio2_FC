@@ -133,9 +133,12 @@ int main(int argc, char** argv) {
                                                                     ROSUnit_msg_type::ROSUnit_Float,
                                                                     "waypoint_reference/yaw");
 
-    ROSUnit* error = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
-                                                                    ROSUnit_msg_type::ROSUnit_Point,
-                                                                    "error/z");                                                               
+    ROSUnit* probe_1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_1");                                                               
+    ROSUnit* probe_2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_2");                                                               
 
     //**************************SETTING BLOCKS**********************************
     PIDController* PID_x = new PIDController(block_id::PID_X);
@@ -201,6 +204,9 @@ int main(int argc, char** argv) {
     Sum* sum_ref_dot_dot_x = new Sum(std::minus<float>());
     Demux3D* prov_demux_x = new Demux3D();
     Mux3D* error_mux_x = new Mux3D();
+
+    prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(probe_2->getPorts()[ROSUnit_FloatPub::ports_id::IP_0]);
 
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     // ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
