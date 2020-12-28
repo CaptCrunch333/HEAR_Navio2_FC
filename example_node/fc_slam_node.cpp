@@ -207,7 +207,7 @@ int main(int argc, char** argv) {
     Demux3D* prov_demux_x = new Demux3D();
     Mux3D* error_mux_x = new Mux3D();
 
-    prov_demux_x->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     MRFT_x->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(probe_3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
