@@ -151,6 +151,7 @@ int main(int argc, char** argv) {
     // ActuationSystem* myActuationSystem = new QuadActuationSystem(actuators);
 
     // //***********************************SETTING CONNECTIONS***********************************
+  
     // //========                                                                            =============
     // //|      |-------------->X_Control_System-->RM_X-->Saturation-->Pitch_Control_System->|           |
     // //| USER |-------------->Y_Control_System-->RM_Y-->Saturation-->Roll_Control_System-->| Actuation |
@@ -182,7 +183,6 @@ int main(int argc, char** argv) {
 
     // Saturation
     inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::OP_0_DATA]->connect(X_Saturation->getPorts()[(int)Saturation::ports_id::IP_0_DATA]);
-
 
     // Pitch
     Sum* sum_ref_pitch = new Sum(std::minus<float>());
@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
     
     // Saturation
     inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::OP_1_DATA]->connect(Y_Saturation->getPorts()[(int)Saturation::ports_id::IP_0_DATA]);
-    
+  
     // Roll
     Sum* sum_ref_roll = new Sum(std::minus<float>());
     Sum* sum_ref_dot_roll = new Sum(std::minus<float>());
