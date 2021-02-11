@@ -156,7 +156,6 @@ int main(int argc, char **argv){
     pos_demux->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::IP_1_POS]);
     rotated_IMU_demux->getPorts()[Demux3D::ports_id::OP_2_DATA]->connect(z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::IP_0_ACC]);
     pos_demux->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(mux_provider_z->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
-    z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_0_VEL]->connect(z_KalmanFilter->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     slam_pos_demux->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(mux_provider_slam_z->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     slam_vel_demux->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(mux_provider_slam_z->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
@@ -183,7 +182,8 @@ int main(int argc, char **argv){
     ((Block*)filter_yaw_dot)->getPorts()[(int)ButterFilter_2nd::ports_id::OP_0_DATA]->connect(mux_provider_yaw_rate->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     
     //Rotated imu vector
-    rosunit_imu_acceleration->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_2]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_0_VEC]);
+    //rosunit_imu_acceleration->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_2]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_0_VEC]);
+    myROSUnit_Xsens->getPorts()[(int)ROSUnit_IMU::ports_id::OP_5_FREE_ACCELERATION]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_0_VEC]);
     myROSUnit_Xsens->getPorts()[(int)ROSUnit_IMU::ports_id::OP_0_ROLL]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_1_ROLL]);
     myROSUnit_Xsens->getPorts()[(int)ROSUnit_IMU::ports_id::OP_1_PITCH]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_2_PITCH]);
     wrap_around_yaw->getPorts()[(int)WrapAroundFunction::ports_id::OP_0_DATA]->connect(rotation_IMU->getPorts()[(int)InverseRotateVec::ports_id::IP_3_YAW]);
