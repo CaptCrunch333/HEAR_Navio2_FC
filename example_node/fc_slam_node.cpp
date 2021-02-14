@@ -134,15 +134,45 @@ int main(int argc, char** argv) {
                                                                     ROSUnit_msg_type::ROSUnit_Float,
                                                                     "waypoint_reference/yaw");
 
-    ROSUnit* probe_1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+    ROSUnit* probe_x1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_1");                                                               
-    ROSUnit* probe_2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    "probe_x1");                                                               
+    ROSUnit* probe_x2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_2");                                                               
-    ROSUnit* probe_3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    "probe_x2");                                                               
+    ROSUnit* probe_x3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_3");
+                                                                    "probe_x3");
+    ROSUnit* probe_x4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x4");                                                               
+
+    ROSUnit* probe_y1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x1");                                                               
+    ROSUnit* probe_y2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x2");                                                               
+    ROSUnit* probe_y3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x3");
+    ROSUnit* probe_y4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x4");                                                               
+    ROSUnit* probe_z1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x1");                                                               
+    ROSUnit* probe_z2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x2");                                                               
+    ROSUnit* probe_z3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x3");
+    ROSUnit* probe_z4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "probe_x4");                                                               
+
+
     //**************************SETTING BLOCKS**********************************
     PIDController* PID_x = new PIDController(block_id::PID_X);
     PIDController* PID_x_slam = new PIDController(block_id::PID_SLAM_X);
@@ -208,9 +238,10 @@ int main(int argc, char** argv) {
     Demux3D* prov_demux_x = new Demux3D();
     Mux3D* error_mux_x = new Mux3D();
 
-    reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    MRFT_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    MRFT_x->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(probe_3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(probe_x1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_x2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_x3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_dot_x->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_x4->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     // ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
@@ -284,6 +315,9 @@ int main(int argc, char** argv) {
     InvertedSwitch* reference_sw_y = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     InvertedSwitch* provider_sw_y = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     HoldVal* hold_ref_y = new HoldVal(std::greater_equal<float>(), 2.0);
+    Sum* add_bias_y = new Sum(std::plus<float>());
+    Switch* MRFT_out_sw_y = new Switch(std::greater_equal<float>(), 2.0);
+    AvgFilter* bias_filter_y = new AvgFilter(200);
 
     Sum* sum_ref_y = new Sum(std::minus<float>());
     Sum* sum_ref_dot_y = new Sum(std::minus<float>());
@@ -291,10 +325,16 @@ int main(int argc, char** argv) {
     Demux3D* prov_demux_y = new Demux3D();
     Mux3D* error_mux_y = new Mux3D();
 
+    reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(probe_y1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_y2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_y3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_dot_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_y4->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(hold_ref_y->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+    ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
     ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(PID_SLAM_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
@@ -321,8 +361,13 @@ int main(int argc, char** argv) {
     MRFT_sw_y->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_y->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
     MRFT_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_y->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
 
+    // Rotation Matrix
     PID_y->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
-    MRFT_y->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
+    PID_y->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(bias_filter_y->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
+    bias_filter_y->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(add_bias_y->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    MRFT_y->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(add_bias_y->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
+    add_bias_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
+    MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
     PID_y_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
       
     // Saturation
@@ -335,7 +380,6 @@ int main(int argc, char** argv) {
     Demux3D* prov_demux_roll = new Demux3D();
     Mux3D* error_mux_roll = new Mux3D();
     NegateFloat* negate_sign=new NegateFloat();
-
 
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(negate_sign->getPorts()[(int)NegateFloat::ports_id::IP_0_DATA]);
     negate_sign->getPorts()[(int)NegateFloat::ports_id::OP_0_DATA]->connect(sum_ref_roll->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
@@ -365,6 +409,11 @@ int main(int argc, char** argv) {
     Sum* sum_ref_dot_dot_z = new Sum(std::minus<float>());
     Demux3D* prov_demux_z = new Demux3D();
     Mux3D* error_mux_z = new Mux3D();
+
+    reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(probe_z1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_z2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_z3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
+    sum_ref_dot_dot_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_z4->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(hold_ref_z->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
