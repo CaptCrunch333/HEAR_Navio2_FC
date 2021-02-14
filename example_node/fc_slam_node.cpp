@@ -149,28 +149,29 @@ int main(int argc, char** argv) {
 
     ROSUnit* probe_y1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x1");                                                               
+                                                                    "probe_y1");                                                               
     ROSUnit* probe_y2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x2");                                                               
+                                                                    "probe_y2");                                                               
     ROSUnit* probe_y3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x3");
+                                                                    "probe_y3");
     ROSUnit* probe_y4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x4");                                                               
+                                                                    "probe_y4");  
+                                                                                                                                 
     ROSUnit* probe_z1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x1");                                                               
+                                                                    "probe_z1");                                                               
     ROSUnit* probe_z2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x2");                                                               
+                                                                    "probe_z2");                                                               
     ROSUnit* probe_z3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x3");
+                                                                    "probe_z3");
     ROSUnit* probe_z4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_x4");                                                               
+                                                                    "probe_z4");                                                               
 
 
     //**************************SETTING BLOCKS**********************************
