@@ -2,7 +2,7 @@
   <node pkg="hear_navio_fc_example" type="global2inertial_node" 
   name="global2inertial_node" output="screen"/> 
   <node pkg="hear_navio_fc_example" type="providers_node" 
-  name="providers_node_slam" output="screen"/> 
+  name="providers_node" output="screen"/> 
   <node pkg="hear_navio_fc_example" type="waypoint_reference_node" 
   name="waypoint_reference_node" output="screen"/> 
   <node pkg="hear_navio_fc_example" type="example_flight_controller_node" 
