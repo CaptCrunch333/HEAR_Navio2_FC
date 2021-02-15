@@ -331,9 +331,9 @@ int main(int argc, char** argv) {
     sum_ref_dot_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_y3->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     sum_ref_dot_dot_y->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(probe_y4->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
-    ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    //ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(hold_ref_y->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    //ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
