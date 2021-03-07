@@ -199,9 +199,9 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_x = new Mux3D();
 
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(hold_ref_x->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
@@ -281,9 +281,9 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_y = new Mux3D();
 
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(hold_ref_y->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
     ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
@@ -365,9 +365,9 @@ int main(int argc, char** argv) {
     Mux3D* error_mux_z = new Mux3D();
 
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(MRFT_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(hold_ref_z->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(provider_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(provider_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
  
     ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
