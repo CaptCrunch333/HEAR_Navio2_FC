@@ -113,25 +113,24 @@ int main(int argc, char** argv) {
                                                                     ROSUnit_msg_type::ROSUnit_Float,
                                                                     "waypoint_reference/yaw");
 
-    ROSUnit* probe_1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
-                                                                    ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_1");                                                               
-    ROSUnit* probe_2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
-                                                                    ROSUnit_msg_type::ROSUnit_Float,
-                                                                    "probe_2");                                                               
+    // ROSUnit* probe_1 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+    //                                                                 ROSUnit_msg_type::ROSUnit_Float,
+    //                                                                 "probe_1");                                                               
+    // ROSUnit* probe_2 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+    //                                                                 ROSUnit_msg_type::ROSUnit_Float,
+    //                                                                 "probe_2");                                                               
 
     //**************************SETTING BLOCKS**********************************
     PIDController* PID_x = new PIDController(block_id::PID_X);
-    PIDController* PID_pitch = new PIDController(block_id::PID_PITCH);
     PIDController* PID_y = new PIDController(block_id::PID_Y);
-    PIDController* PID_roll = new PIDController(block_id::PID_ROLL);
     PIDController* PID_z = new PIDController(block_id::PID_Z);
+    PIDController* PID_roll = new PIDController(block_id::PID_ROLL);
+    PIDController* PID_pitch = new PIDController(block_id::PID_PITCH);
     PIDController* PID_yaw = new PIDController(block_id::PID_YAW);
     PIDController* PID_yaw_rate = new PIDController(block_id::PID_YAW_RATE);
 
     MRFTController* MRFT_roll = new MRFTController(block_id::MRFT_ROLL);
     MRFTController* MRFT_pitch = new MRFTController(block_id::MRFT_PITCH);
-    MRFTController* MRFT_z = new MRFTController(block_id::MRFT_Z);
 
     Transform_InertialToBody* inertialToBody_RotMat = new Transform_InertialToBody();
 
@@ -197,11 +196,6 @@ int main(int argc, char** argv) {
     InvertedSwitch* ref_sw_pitch = new InvertedSwitch(std::greater_equal<float>(), 2.0);
     Sum* MRFT_bias_pitch = new Sum(std::plus<float>());
 
-    //********* Adding probes for debugging
-    // hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    // hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    ///////////////////////////////
-
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
@@ -231,8 +225,6 @@ int main(int argc, char** argv) {
     MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
     MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
-    // MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
-
 
     //*******************************************************************************************************************
 
@@ -274,11 +266,6 @@ int main(int argc, char** argv) {
     Sum* MRFT_bias_roll = new Sum(std::plus<float>());
     NegateFloat* negate_sign=new NegateFloat();
 
-    //********* Adding probes for debugging
-    hold_ref_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    hold_bias_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(probe_2->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
-    //////////////////////////////////////
-
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(hold_ref_roll->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(ref_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
@@ -315,38 +302,24 @@ int main(int argc, char** argv) {
 
     // **** Z Channel Subsystem ****
 
-    Switch* MRFT_sw_z = new Switch(std::greater_equal<float>(), 2.0);
-    HoldVal* hold_ref_z = new HoldVal(std::greater_equal<float>(), 2.0); 
-
     Sum* sum_ref_z = new Sum(std::minus<float>());
     Sum* sum_ref_dot_z = new Sum(std::minus<float>());
     Sum* sum_ref_dot_dot_z = new Sum(std::minus<float>());
     Demux3D* prov_demux_z = new Demux3D();
     Mux3D* error_mux_z = new Mux3D();
-    Sum* MRFT_bias_z = new Sum(std::plus<float>());
 
-    ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(hold_ref_z->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
-
-    rosunit_waypoint_z->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_2]->connect(hold_ref_z->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
-    hold_ref_z->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(sum_ref_z->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
-    prov_demux_z->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(sum_ref_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    rosunit_waypoint_z->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_2]->connect(sum_ref_z->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     rosunit_z_provider->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_2]->connect(prov_demux_z->getPorts()[(int)Demux3D::ports_id::IP_0_DATA]);
+    prov_demux_z->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(sum_ref_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     prov_demux_z->getPorts()[(int)Demux3D::ports_id::OP_1_DATA]->connect(sum_ref_dot_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     prov_demux_z->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(sum_ref_dot_dot_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     sum_ref_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_z->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     sum_ref_dot_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_z->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
     sum_ref_dot_dot_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(error_mux_z->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);
 
-    error_mux_z->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(MRFT_sw_z->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
-    MRFT_sw_z->getPorts()[(int)Switch::ports_id::OP_0_DATA_DEFAULT]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
-    MRFT_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_0_DATA]);
+    error_mux_z->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_0_DATA]);
 
-    PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);;
-    PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_bias_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
-    MRFT_z->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_z->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
-    MRFT_bias_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
-
+    PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
     //*******************************************************************************************************************
 
     // **** YAW Channel Subsystem ****
@@ -399,7 +372,6 @@ int main(int argc, char** argv) {
     X_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_0_X_OUTPUT]);
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_1_Y_OUTPUT]);
     PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_2_Z_OUTPUT]);
-    MRFT_bias_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_2_Z_OUTPUT]);
     MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_3_ROLL_OUTPUT]);
     MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_4_PITCH_OUTPUT]);
     Yaw_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_5_YAW_OUTPUT]);
@@ -409,7 +381,6 @@ int main(int argc, char** argv) {
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_y->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
-    myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_1_MRFT]->connect(MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_roll->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_1_MRFT]->connect(MRFT_roll->getPorts()[(int)MRFTController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_pitch->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
