@@ -207,7 +207,11 @@ int main(int argc, char **argv){
 
     optitrack_z_dot->getPorts()[(int)Differentiator::ports_id::OP_0_DATA]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_0_POS]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);    
-    z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_1_VEL]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);    
+    z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_1_VEL]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]); 
+
+    probe1_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe1->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
+    probe2_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe2->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
+    probe3_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe3->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
 
     //Roll Provider
     myROSUnit_Xsens->getPorts()[(int)ROSUnit_IMU::ports_id::OP_2_ROLL_RATE]->connect(((Block*)filter_roll_dot)->getPorts()[(int)ButterFilter_2nd::ports_id::IP_0_DATA]);
