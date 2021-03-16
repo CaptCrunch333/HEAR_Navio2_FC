@@ -207,8 +207,8 @@ int main(int argc, char** argv) {
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(hold_ref_x->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_0]->connect(MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
-    ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(PID_SLAM_sw_x->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+    ros_slam_pid_trigger_x->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_1]->connect(provider_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
 
     rosunit_waypoint_x->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_0]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     hold_ref_x->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_x->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
@@ -291,8 +291,8 @@ int main(int argc, char** argv) {
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(hold_ref_y->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_2]->connect(MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
 
-    ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(PID_SLAM_sw_y->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+    ros_slam_pid_trigger_y->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_3]->connect(provider_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
 
     rosunit_waypoint_y->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_1]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     hold_ref_y->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_y->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
@@ -377,8 +377,8 @@ int main(int argc, char** argv) {
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(hold_ref_z->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_4]->connect(MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
  
-    ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(PID_SLAM_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+    ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(provider_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
 
     rosunit_waypoint_z->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_2]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     hold_ref_z->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
@@ -473,6 +473,11 @@ int main(int argc, char** argv) {
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_pitch->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_yaw->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_yaw_rate->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
+
+    myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_x_slam->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
+    myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_y_slam->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
+    myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_0_PID]->connect(PID_z_slam->getPorts()[(int)PIDController::ports_id::IP_1_UPDATE]);
+
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_1_MRFT]->connect(MRFT_x->getPorts()[(int)MRFTController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_1_MRFT]->connect(MRFT_y->getPorts()[(int)MRFTController::ports_id::IP_1_UPDATE]);
     myROSUpdateController->getPorts()[(int)ROSUnit_UpdateControllerSrv::ports_id::OP_1_MRFT]->connect(MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_1_UPDATE]);
@@ -480,6 +485,11 @@ int main(int argc, char** argv) {
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_x->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_y->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_z->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
+
+    ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_x_slam->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
+    ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_y_slam->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
+    ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(PID_z_slam->getPorts()[(int)PIDController::ports_id::IP_2_RESET]);
+
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(MRFT_x->getPorts()[(int)MRFTController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(MRFT_y->getPorts()[(int)MRFTController::ports_id::IP_2_RESET]);
     ((Block*)myROSResetController)->getPorts()[(int)ROSUnit_SetIntSrv::ports_id::OP_0]->connect(MRFT_z->getPorts()[(int)MRFTController::ports_id::IP_2_RESET]);
