@@ -86,6 +86,9 @@ int main(int argc, char **argv){
     ROSUnit* probe3 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
                                                                     ROSUnit_msg_type::ROSUnit_Point,
                                                                     "/probe_prov_3");
+    ROSUnit* probe4 = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Point,
+                                                                    "/probe_prov_4");
                                                                         
     //***********************ADDING SENSORS********************************
     ROSUnit* myROSUnit_Xsens = new ROSUnit_IMU(nh);
@@ -144,6 +147,7 @@ int main(int argc, char **argv){
     Mux3D* probe1_mux = new Mux3D();
     Mux3D* probe2_mux = new Mux3D();
     Mux3D* probe3_mux = new Mux3D();
+    Mux3D* probe4_mux = new Mux3D();
 
     rosunit_g2i_position->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_0]->connect(pos_demux->getPorts()[(int)Demux3D::ports_id::IP_0_DATA]);
     rosunit_g2i_orientation->getPorts()[(int)ROSUnit_PointSub::ports_id::OP_1]->connect(ori_demux->getPorts()[(int)Demux3D::ports_id::IP_0_DATA]);
@@ -169,7 +173,7 @@ int main(int argc, char **argv){
     optitrack_x_dot->getPorts()[(int)Differentiator::ports_id::OP_0_DATA]->connect(probe1_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     x_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_0_POS]->connect(probe1_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);    
     x_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_1_VEL]->connect(probe1_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);    
-
+    rotated_IMU_demux->getPorts()[Demux3D::ports_id::OP_0_DATA]->connect(probe4_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
 //    slam_vel_demux->getPorts()[(int)Demux3D::ports_id::OP_0_DATA]->connect(mux_provider_slam_x->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
 
     //Y Provider
@@ -189,6 +193,7 @@ int main(int argc, char **argv){
     optitrack_y_dot->getPorts()[(int)Differentiator::ports_id::OP_0_DATA]->connect(probe2_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     y_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_0_POS]->connect(probe2_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);    
     y_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_1_VEL]->connect(probe2_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);    
+    rotated_IMU_demux->getPorts()[Demux3D::ports_id::OP_1_DATA]->connect(probe4_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
 
     //Z Provider
     pos_demux->getPorts()[(int)Demux3D::ports_id::OP_2_DATA]->connect(optitrack_z_dot->getPorts()[(int)Differentiator::ports_id::IP_0_DATA]);
@@ -208,11 +213,13 @@ int main(int argc, char **argv){
     optitrack_z_dot->getPorts()[(int)Differentiator::ports_id::OP_0_DATA]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
     z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_0_POS]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);    
     z_kalmanFilter->getPorts()[(int)KalmanFilter::ports_id::OP_1_VEL]->connect(probe3_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]); 
+    rotated_IMU_demux->getPorts()[Demux3D::ports_id::OP_2_DATA]->connect(probe4_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);
 
     probe1_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe1->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
     probe2_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe2->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
     probe3_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe3->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);   
-
+    probe4_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(probe4->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);
+    
     //Roll Provider
     myROSUnit_Xsens->getPorts()[(int)ROSUnit_IMU::ports_id::OP_2_ROLL_RATE]->connect(((Block*)filter_roll_dot)->getPorts()[(int)ButterFilter_2nd::ports_id::IP_0_DATA]);
     ((Block*)filter_roll_dot)->getPorts()[(int)ButterFilter_2nd::ports_id::OP_0_DATA]->connect(mux_provider_roll->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
