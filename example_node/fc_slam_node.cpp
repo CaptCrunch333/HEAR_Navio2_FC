@@ -366,7 +366,6 @@ int main(int argc, char** argv) {
     Switch* MRFT_out_sw_z = new Switch(std::greater_equal<float>(), 2.0);
     AvgFilter* bias_filter_z = new AvgFilter(200);
 
-
     Sum* sum_ref_z = new Sum(std::minus<float>());
     Sum* sum_ref_dot_z = new Sum(std::minus<float>());
     Sum* sum_ref_dot_dot_z = new Sum(std::minus<float>());
@@ -383,7 +382,8 @@ int main(int argc, char** argv) {
  
     ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(PID_SLAM_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
     ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(provider_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
-
+    ros_slam_pid_trigger_z->getPorts()[(int)ROSUnit_SetFloatSrv::ports_id::OP_5]->connect(MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::IP_1_TRIGGER]);
+ 
     rosunit_waypoint_z->getPorts()[(int)ROSUnit_FloatSub::ports_id::OP_2]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     hold_ref_z->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(reference_sw_z->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
 
@@ -412,7 +412,7 @@ int main(int argc, char** argv) {
     MRFT_z->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(add_bias_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     add_bias_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
-    PID_z_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
+    PID_z_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(add_bias_z->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
 
     PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(probe1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     //*******************************************************************************************************************
