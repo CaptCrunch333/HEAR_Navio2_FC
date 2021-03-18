@@ -21,7 +21,7 @@
 #include "HEAR_math/InverseRotateVec.hpp"
 
 const int OPTITRACK_FREQUENCY = 120;
-const float SLAM_FREQ = 30.0;
+const float SLAM_FREQ = 27.5;
 
 int main(int argc, char **argv){
     ros::init(argc, argv, "providers_node_slam");
