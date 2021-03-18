@@ -46,7 +46,7 @@
 #define OPTITRACK
 #define BIG_HEXA
 #undef BATTERY_MONITOR
-//#define MRFT_SLAM
+#define MRFT_SLAM
 
 const int PWM_FREQUENCY = 200;
 const float SATURATION_VALUE_XY = 0.2617; 
