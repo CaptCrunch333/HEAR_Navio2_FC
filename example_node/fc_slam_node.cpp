@@ -135,9 +135,15 @@ int main(int argc, char** argv) {
                                                                     ROSUnit_msg_type::ROSUnit_Float,
                                                                     "waypoint_reference/yaw");
 
-    ROSUnit* mrft_output = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
-                                                                    ROSUnit_msg_type::ROSUnit_Point,
-                                                                    "/mrft_output");
+    ROSUnit* mrft_pub_x = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "/mrft_output/x");
+    ROSUnit* mrft_pub_y = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "/mrft_output/y");
+    ROSUnit* mrft_pub_z = ROSUnit_Factory_main.CreateROSUnit(ROSUnit_tx_rx_type::Publisher, 
+                                                                    ROSUnit_msg_type::ROSUnit_Float,
+                                                                    "/mrft_output/z");
 
     //**************************SETTING BLOCKS**********************************
     PIDController* PID_x = new PIDController(block_id::PID_X);
@@ -154,8 +160,7 @@ int main(int argc, char** argv) {
     MRFTController* MRFT_x = new MRFTController(block_id::MRFT_X);
     MRFTController* MRFT_y = new MRFTController(block_id::MRFT_Y);
     MRFTController* MRFT_z = new MRFTController(block_id::MRFT_Z);
-    Mux3D* MRFT_out_mux = new Mux3D();
-
+ 
     Transform_InertialToBody* inertialToBody_RotMat = new Transform_InertialToBody();
 
     Saturation* X_Saturation = new Saturation(SATURATION_VALUE_XY);
@@ -247,7 +252,7 @@ int main(int argc, char** argv) {
     MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
     PID_x_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_0_X]);
 
-    MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_out_mux->getPorts()[(int)Mux3D::ports_id::IP_0_DATA]);
+    MRFT_out_sw_x->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(mrft_pub_x->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     // Saturation
     inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::OP_0_DATA]->connect(X_Saturation->getPorts()[(int)Saturation::ports_id::IP_0_DATA]);
@@ -332,7 +337,7 @@ int main(int argc, char** argv) {
     MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
     PID_y_slam->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::IP_1_Y]);
     
-    MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_out_mux->getPorts()[(int)Mux3D::ports_id::IP_1_DATA]);
+    MRFT_out_sw_y->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(mrft_pub_y->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     // Saturation
     inertialToBody_RotMat->getPorts()[(int)Transform_InertialToBody::ports_id::OP_1_DATA]->connect(Y_Saturation->getPorts()[(int)Saturation::ports_id::IP_0_DATA]);
@@ -419,7 +424,7 @@ int main(int argc, char** argv) {
     add_bias_z->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::IP_0_DATA]);
     MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_3_DATA_Z]);
     
-    MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(MRFT_out_mux->getPorts()[(int)Mux3D::ports_id::IP_2_DATA]);
+    MRFT_out_sw_z->getPorts()[(int)Switch::ports_id::OP_1_DATA]->connect(mrft_pub_z->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
 
     // PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(probe1->getPorts()[(int)ROSUnit_FloatPub::ports_id::IP_0]);
     //*******************************************************************************************************************
@@ -469,8 +474,6 @@ int main(int argc, char** argv) {
     //*******************************************************************************************************************
     
     // ROS CONTROL OUTPUTS
-    MRFT_out_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(mrft_output->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);
-
     X_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_0_X_OUTPUT]);
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_1_Y_OUTPUT]);
     PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_2_Z_OUTPUT]);
