@@ -469,6 +469,8 @@ int main(int argc, char** argv) {
     //*******************************************************************************************************************
     
     // ROS CONTROL OUTPUTS
+    MRFT_out_mux->getPorts()[(int)Mux3D::ports_id::OP_0_DATA]->connect(mrft_output->getPorts()[(int)ROSUnit_PointPub::ports_id::IP_0]);
+
     X_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_0_X_OUTPUT]);
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_1_Y_OUTPUT]);
     PID_z->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(((Block*)myROSBroadcastData)->getPorts()[(int)ROSUnit_BroadcastData::ports_id::IP_2_Z_OUTPUT]);
