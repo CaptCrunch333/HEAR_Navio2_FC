@@ -11,13 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 catkin_package(
-  INCLUDE_DIRS
-  LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
-    hear_ros_bridge
     roscpp
-  DEPENDS
-    system_lib
+    hear_ros_bridge
+    hear_hardware_interface
+    hear_architecture
 )
 
 include_directories(
@@ -25,25 +23,34 @@ include_directories(
 )
 
 add_executable(example_flight_controller_node example_node/example_node.cpp)
+add_dependencies(example_flight_controller_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(example_flight_controller_node ${catkin_LIBRARIES})
 
+
 add_executable(slam_fc_node example_node/fc_slam_node.cpp)
+add_dependencies(slam_fc_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(slam_fc_node ${catkin_LIBRARIES})
 
 add_executable(global2inertial_node global2inertial_node/global2inertial_node.cpp)
+add_dependencies(global2inertial_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(global2inertial_node ${catkin_LIBRARIES})
 
 add_executable(providers_node providers_node/providers_node.cpp)
+add_dependencies(providers_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(providers_node ${catkin_LIBRARIES})
 
 add_executable(providers_node_slam providers_node/providers_node_slam.cpp)
+add_dependencies(providers_node_slam ${catkin_EXPORTED_TARGETS})
 target_link_libraries(providers_node_slam ${catkin_LIBRARIES})
 
 add_executable(waypoint_reference_node waypoint_reference_node/waypoint_reference_node.cpp)
+add_dependencies(waypoint_reference_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(waypoint_reference_node ${catkin_LIBRARIES})
 
 add_executable(esc_calib_node example_node/calibrate_esc_node.cpp)
+add_dependencies(esc_calib_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(esc_calib_node ${catkin_LIBRARIES})
 
 add_executable(mrft_rpz_node example_node/mrft_rpz_node.cpp)
+add_dependencies(mrft_rpz_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(mrft_rpz_node ${catkin_LIBRARIES})

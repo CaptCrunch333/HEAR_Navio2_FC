@@ -7,6 +7,8 @@
   <license>TODO</license>
   <buildtool_depend>catkin</buildtool_depend>
   <depend>hear_ros_bridge</depend>
+  <depend>hear_architecture</depend>
+  <depend>hear_hardware_interface</depend>
   <depend>roscpp</depend>
   <export>
   </export>
