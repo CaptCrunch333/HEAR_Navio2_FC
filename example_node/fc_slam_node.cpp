@@ -44,7 +44,7 @@
 
 #define XSENS_OVER_ROS
 #define OPTITRACK
-#define BIG_HEXA
+//#define BIG_HEXA
 #undef BATTERY_MONITOR
 //#define MRFT_SLAM
 
@@ -182,7 +182,10 @@ int main(int argc, char** argv) {
     ActuationSystem* myActuationSystem = new HexaActuationSystem(actuators);
     #ifdef BIG_HEXA
     myActuationSystem->setESCValues(1165 ,1000, 2000);
+    #else
+    myActuationSystem->setESCValues(1140 ,1000, 2000);
     #endif
+    
     // ActuationSystem* myActuationSystem = new QuadActuationSystem(actuators);
 
     // //***********************************SETTING CONNECTIONS***********************************
