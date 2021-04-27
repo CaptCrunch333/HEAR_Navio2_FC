@@ -44,7 +44,7 @@
 
 #define XSENS_OVER_ROS
 #define OPTITRACK
-//#define BIG_HEXA
+#define BIG_HEXA
 #undef BATTERY_MONITOR
 //#define MRFT_SLAM
 
