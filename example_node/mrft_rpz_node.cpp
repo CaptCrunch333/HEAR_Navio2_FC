@@ -41,7 +41,7 @@
 
 #define XSENS_OVER_ROS
 #define OPTITRACK
-#define BIG_HEXA
+//#define BIG_HEXA
 
 const int PWM_FREQUENCY = 200;
 const float SATURATION_VALUE_XY = 0.2617; 
@@ -153,6 +153,8 @@ int main(int argc, char** argv) {
     ActuationSystem* myActuationSystem = new HexaActuationSystem(actuators);
     #ifdef BIG_HEXA
     myActuationSystem->setESCValues(1165 ,1000, 2000);
+    #else
+    myActuationSystem->setESCValues(1140 ,1000, 2000);
     #endif
 
     //*******************************************************************************************************************
