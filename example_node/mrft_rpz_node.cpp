@@ -200,7 +200,7 @@ int main(int argc, char** argv) {
 
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_ref_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_pitch->getPorts()[(int)ROSUnit_SetFloatSrv::OP_1]->connect(hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
 
     X_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(ref_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
@@ -223,7 +223,7 @@ int main(int argc, char** argv) {
     PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     PID_pitch->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(filter_bias_pitch->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
     filter_bias_pitch->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
-    hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    // hold_bias_pitch->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     MRFT_pitch->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     MRFT_bias_pitch->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
     MRFT_sw_pitch->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_1_DATA_PITCH]);
@@ -270,7 +270,7 @@ int main(int argc, char** argv) {
 
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(hold_ref_roll->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
-    ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(ref_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
+    // ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(ref_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_1_TRIGGER]);
     ros_mrft_trigger_roll->getPorts()[(int)ROSUnit_SetFloatSrv::OP_0]->connect(hold_bias_roll->getPorts()[(int)HoldVal::ports_id::IP_1_TRIGGER]);
     
     Y_Saturation->getPorts()[(int)Saturation::ports_id::OP_0_DATA]->connect(negate_sign->getPorts()[(int)NegateFloat::ports_id::IP_0_DATA]);
@@ -294,7 +294,7 @@ int main(int argc, char** argv) {
     PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_0_DATA_DEFAULT]);
     PID_roll->getPorts()[(int)PIDController::ports_id::OP_0_DATA]->connect(filter_bias_roll->getPorts()[(int)AvgFilter::ports_id::IP_0_DATA]);
     filter_bias_roll->getPorts()[(int)AvgFilter::ports_id::OP_0_DATA]->connect(hold_bias_roll->getPorts()[(int)HoldVal::ports_id::IP_0_DATA]);
-    hold_bias_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
+    // hold_bias_roll->getPorts()[(int)HoldVal::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_1_DATA]);
     MRFT_roll->getPorts()[(int)MRFTController::ports_id::OP_0_DATA]->connect(MRFT_bias_roll->getPorts()[(int)Sum::ports_id::IP_0_DATA]);
     MRFT_bias_roll->getPorts()[(int)Sum::ports_id::OP_0_DATA]->connect(MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::IP_2_DATA]);
     MRFT_sw_roll->getPorts()[(int)InvertedSwitch::ports_id::OP_0_DATA]->connect(((Block*)myActuationSystem)->getPorts()[(int)HexaActuationSystem::ports_id::IP_0_DATA_ROLL]);
